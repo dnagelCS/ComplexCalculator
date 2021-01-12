@@ -1,7 +1,11 @@
+import java.util.Scanner;
+
 public class Complex {
 
     private double[] a;
     private double[] b;
+    private String[] operators = {"+", "-", "*", "/"};
+    int choice = 0;
 
     public double[] getA() {
         return a;
@@ -19,21 +23,40 @@ public class Complex {
         this.b = b;
     }
 
+    public void setChoice(Scanner input) {
+        for (int i = 0; i < operators.length; i++) {
+            if(input.next() == operators[i]) {
+                choice = i;
+            }
+        }
+    }
+
     public double[] binOp(double[] a, double[] b) {
         this.a = a;
         this.b = b;
         double[] result;
 
-        //add all operations
-
         //make sure both arrays are of equal length
         if (a.length == b.length) {
-            //add
+            //default
             result = add(a,b);
-            return result;
+            //add
+            if(choice == 0) {
+                result = add(a,b);
+            }
             //subtract
+            else if (choice == 1) {
+                result = subtract(a,b);
+            }
             //multiply
+            else if (choice == 2) {
+                result = multiply(a,b);
+            }
             //divide
+            else if (choice == 3) {
+                result = divide(a,b);
+            }
+            return result;
         }
         else throw new IllegalArgumentException();
     }
@@ -51,8 +74,47 @@ public class Complex {
         } else throw new IllegalArgumentException();
     }
 
+    public static double[] subtract(double[] a, double[] b) {
+        if (a.length == b.length) {
+            int length = a.length;
+
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++) {
+                result[i] = a[i] - b[i];
+            }
+            return result;
+        } else throw new IllegalArgumentException();
+    }
+
+    public static double[] multiply(double[] a, double[] b) {
+        if (a.length == b.length) {
+            int length = a.length;
+
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++) {
+                result[i] = a[i] * b[i];
+            }
+            return result;
+        } else throw new IllegalArgumentException();
+    }
+
+    public static double[] divide(double[] a, double[] b) {
+        if (a.length == b.length) {
+            int length = a.length;
+
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++) {
+                result[i] = a[i] / b[i];
+            }
+            return result;
+        } else throw new IllegalArgumentException();
+    }
+
     public String toString() {
-        return "(" + a[0] + ", " + a[1] + "i) + (" +
+        return "(" + a[0] + ", " + a[1] + "i) " + operators[choice] + " (" +
                 b[0] + ", " + b[1] + "i)";
     }
 }
