@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class CalcFrame extends JFrame {
     Complex complex;
@@ -13,12 +14,19 @@ public class CalcFrame extends JFrame {
     private JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9;
     private JButton decimal;
     private JButton clear;
+    private JButton i;
+    private JButton leftParent, rightParent;
+    private JButton back;
     private JButton add, subtract, multiply, divide;
 
     private JButton equals;
 
     public CalcFrame() {
-        setSize(300,250);
+        //TODO: add actionListeners
+        //instead of clear, make it an i button?
+        //or see if I can automatically add i at end of user string (i think i can)
+
+        setSize(300, 250);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Complex Calculator");
         setLayout(new BorderLayout());
@@ -52,29 +60,37 @@ public class CalcFrame extends JFrame {
         b9 = new JButton("9");
 
         decimal = new JButton(".");
-        clear = new JButton("C");
+        i = new JButton("i");
 
         add = new JButton("+");
         subtract = new JButton("-");
         multiply = new JButton("*");
         divide = new JButton("/");
+        leftParent = new JButton("(");
+        rightParent = new JButton(")");
+        back = new JButton("\u2190");
+        clear = new JButton("C");
 
-        buttonPanel = new JPanel(new GridLayout(4,4,2,2));
-        buttonPanel.add(add);
-        buttonPanel.add(b1);
-        buttonPanel.add(b2);
-        buttonPanel.add(b3);
-        buttonPanel.add(subtract);
-        buttonPanel.add(b4);
-        buttonPanel.add(b5);
-        buttonPanel.add(b6);
-        buttonPanel.add(multiply);
+        buttonPanel = new JPanel(new GridLayout(4, 5, 2, 2));
         buttonPanel.add(b7);
         buttonPanel.add(b8);
         buttonPanel.add(b9);
+        buttonPanel.add(multiply);
         buttonPanel.add(divide);
-        buttonPanel.add(decimal);
+        buttonPanel.add(b4);
+        buttonPanel.add(b5);
+        buttonPanel.add(b6);
+        buttonPanel.add(add);
+        buttonPanel.add(subtract);
+        buttonPanel.add(b1);
+        buttonPanel.add(b2);
+        buttonPanel.add(b3);
+        buttonPanel.add(leftParent);
+        buttonPanel.add(rightParent);
         buttonPanel.add(b0);
+        buttonPanel.add(decimal);
+        buttonPanel.add(i);
+        buttonPanel.add(back);
         buttonPanel.add(clear);
 
         equals = new JButton("=");
@@ -83,5 +99,43 @@ public class CalcFrame extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
         //add(operatorsPanel, BorderLayout.WEST);
         add(equals, BorderLayout.SOUTH);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String comp1a = "";
+        String comp1b = "";
+        String comp2a = "";
+        String comp2b = "";
+        String op = "";
+        String str = e.getActionCommand();
+
+        if ((str.charAt(0) >= '0' && str.charAt(0) <= '9') || str.charAt(0) == '.') {
+            //if operand is present then add to imaginary num for each complex number
+            if (!op.equals("")) {
+                comp1b = comp1b + str;
+                comp2b = comp2b + str;
+            } else {
+                comp1a = comp1a + str;
+                comp2a = comp2a + str;
+
+                //set the value of text
+                complex1.setText(comp1a + op + comp1b);
+                complex2.setText(comp2a + op + comp2b);
+                //also for operator TV
+            }
+        } else if (str.charAt(0) == 'C') {
+            comp1a = "";
+            comp1b = "";
+            comp2a = "";
+            comp2b = "";
+            op = "";
+
+            complex1.setText("");
+            operator.setText("");
+            complex2.setText("");
+        } else if (str.charAt(0) == '=') {
+
+        }
+
     }
 }
