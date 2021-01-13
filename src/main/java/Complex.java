@@ -1,19 +1,9 @@
-import java.util.Scanner;
-
 public class Complex {
 
     private double[] a;
     private double[] b;
     private String[] operators = {"+", "-", "*", "/"};
     int choice = 0;
-
-    public double[] getA() {
-        return a;
-    }
-
-    public double[] getB() {
-        return b;
-    }
 
     public void setA(double[] a) {
         this.a = a;
@@ -23,9 +13,9 @@ public class Complex {
         this.b = b;
     }
 
-    public void setChoice(Scanner input) {
+    public void setChoice(String opStr) {
         for (int i = 0; i < operators.length; i++) {
-            if(input.next() == operators[i]) {
+            if(opStr == operators[i]) {
                 choice = i;
             }
         }
