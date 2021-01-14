@@ -76,17 +76,48 @@ public class CalcFrame extends JFrame {
     }
 
     private void calcResult() {
-        //TODO: fix number retrieval (negative numbers) and case for plain i
-        //TODO: add error case
+        String[] comp1parts;
+        String c1pt1;
+        String c1pt2;
+        String[] comp2parts;
+        String c2pt1;
+        String c2pt2;
         double a, b, c, d;
+        //if not in correct format, show error message
         if(!complex1TF.getText().contains("(") || !complex1TF.getText().contains(")") || !complex2TF.getText().contains("(")
-        || !complex2TF.getText().contains(")") || complex1TF.getText().isEmpty() || complex2TF.getText().isEmpty()) {
+        || !complex2TF.getText().contains(")") || complex1TF.getText().isEmpty() || complex2TF.getText().isEmpty() ||
+        complex1TF.getText().contains("*") || complex1TF.getText().contains("/") || complex2TF.getText().contains("*") ||
+        complex2TF.getText().contains("/")) {
             JOptionPane.showMessageDialog(this, "Make sure the complex number is in the format (a + bi)", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-            a = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf("(") + 1));
-            b = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf(")") - 2));
-            c = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf("(") + 1));
-            d = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf(")") - 2));
+            //Complex 1: check whether pos or neg imaginary value
+            if (complex1TF.getText().contains("+")) {
+                comp1parts = complex1TF.getText().split("\\+");
+                c1pt1 = comp1parts[0];
+                c1pt2 = comp1parts[1];
+                a = Double.parseDouble(c1pt1.substring(c1pt1.lastIndexOf("(") + 1));
+                b = getPosImag(c1pt2);
+            } else {
+                comp1parts = complex1TF.getText().split("-");
+                c1pt1 = comp1parts[0];
+                c1pt2 = comp1parts[1];
+                a = Double.parseDouble(c1pt1.substring(c1pt1.lastIndexOf("(") + 1));
+                b = getNegImag(c1pt2);
+            }
+            //Complex 2: check whether pos or neg imaginary value
+            if (complex2TF.getText().contains("+")) {
+                comp2parts = complex2TF.getText().split("\\+");
+                c2pt1 = comp2parts[0];
+                c2pt2 = comp2parts[1];
+                c = Double.parseDouble(c2pt1.substring(c2pt1.lastIndexOf("(") + 1));
+                d = getPosImag(c2pt2);
+            } else {
+                comp1parts = complex2TF.getText().split("-");
+                c2pt1 = comp1parts[0];
+                c2pt2 = comp1parts[1];
+                c = Double.parseDouble(c2pt1.substring(c2pt1.lastIndexOf("(") + 1));
+                d = getNegImag(c2pt2);
+            }
 
             double[] comp1 = {a, b};
             double[] comp2 = {c, d};
@@ -94,10 +125,36 @@ public class CalcFrame extends JFrame {
             result = complex.binOp(comp1, comp2);
             String res = Arrays.toString(result).replace("[", "").replace("]", "");
             if (result[1] != 0) {
-                output.setText("Output: " + res + "i");
+                output.setText("Output: (" + res + "i)");
             } else {
-                output.setText("Output: " + res);
+                output.setText("Output: (" + res + ")");
             }
         }
+    }
+
+    private double getPosImag(String posImag) {
+        double b = 0;
+        if (posImag.contains("i") && posImag.contains(")")) {
+            posImag = posImag.replace("i", "");
+            posImag = posImag.replace(")", "");
+            if (!posImag.isEmpty()) {
+                b = Double.parseDouble(posImag);
+            }
+            return b;
+        }
+        return b;
+    }
+
+    private double getNegImag(String negImag) {
+        double b = 0;
+        if (negImag.contains("i") && negImag.contains(")")) {
+            negImag = negImag.replace("i", "");
+            negImag = negImag.replace(")", "");
+            if (!negImag.isEmpty()) {
+                b = -Double.parseDouble(negImag);
+            }
+            return b;
+        }
+        return b;
     }
 }
