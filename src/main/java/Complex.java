@@ -15,7 +15,7 @@ public class Complex {
 
     public void setChoice(String opStr) {
         for (int i = 0; i < operators.length; i++) {
-            if(opStr == operators[i]) {
+            if(opStr.equals(operators[i])) {
                 choice = i;
             }
         }

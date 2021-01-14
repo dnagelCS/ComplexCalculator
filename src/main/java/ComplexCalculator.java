@@ -2,9 +2,9 @@ import java.util.Arrays;
 
 public class ComplexCalculator {
     public static void main(String[] args) {
-        //new CalcFrame().setVisible(true);
+        new CalcFrame().setVisible(true);
 
-        Complex complex = new Complex();
+/*        Complex complex = new Complex();
         double[] a = {5,2};
         double[] b = {3,5};
         double[] result;
@@ -20,6 +20,6 @@ public class ComplexCalculator {
             System.out.println("Output: " + res + "i");
         } else {
             System.out.println("Output: " + res);
-        }
+        }*/
     }
 }
