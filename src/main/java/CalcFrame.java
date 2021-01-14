@@ -18,10 +18,6 @@ public class CalcFrame extends JFrame {
 
     private JTextField output;
 
-    private JDialog error;
-    private JLabel errorMssg;
-    private JButton ok;
-
     public CalcFrame() {
         //TODO: update UI
         setSize(500, 300);
@@ -64,13 +60,6 @@ public class CalcFrame extends JFrame {
         output = new JTextField("Output:");
         output.setEditable(false);
         output.setColumns(16);
-
-        error = new JDialog();
-        errorMssg = new JLabel("ERROR: Make sure the complex number is in the format (a + bi)");
-        ok = new JButton("OK");
-        ok.addActionListener(actionEvent -> error.dispose());
-        error.add(errorMssg);
-        error.add(ok);
     }
 
     private void setOp() {
@@ -90,20 +79,25 @@ public class CalcFrame extends JFrame {
         //TODO: fix number retrieval (negative numbers) and case for plain i
         //TODO: add error case
         double a, b, c, d;
-        a = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf("(") + 1));
-        b = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf(")") - 2));
-        c = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf("(") + 1));
-        d = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf(")") - 2));
-
-        double[] comp1 = {a,b};
-        double[] comp2 = {c,d};
-        double[] result;
-        result = complex.binOp(comp1, comp2);
-        String res = Arrays.toString(result).replace("[", "").replace("]", "");
-        if (result[1] != 0) {
-            output.setText("Output: " + res + "i");
+        if(!complex1TF.getText().contains("(") || !complex1TF.getText().contains(")") || !complex2TF.getText().contains("(")
+        || !complex2TF.getText().contains(")") || complex1TF.getText().isEmpty() || complex2TF.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ERROR:\nMake sure the complex number is in the format (a + bi)");
         } else {
-            output.setText("Output: " + res);
+            a = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf("(") + 1));
+            b = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf(")") - 2));
+            c = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf("(") + 1));
+            d = Double.parseDouble(complex2TF.getText().substring(complex2TF.getText().lastIndexOf(")") - 2));
+
+            double[] comp1 = {a, b};
+            double[] comp2 = {c, d};
+            double[] result;
+            result = complex.binOp(comp1, comp2);
+            String res = Arrays.toString(result).replace("[", "").replace("]", "");
+            if (result[1] != 0) {
+                output.setText("Output: " + res + "i");
+            } else {
+                output.setText("Output: " + res);
+            }
         }
     }
 }
