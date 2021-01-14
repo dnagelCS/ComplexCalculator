@@ -81,7 +81,7 @@ public class CalcFrame extends JFrame {
         double a, b, c, d;
         if(!complex1TF.getText().contains("(") || !complex1TF.getText().contains(")") || !complex2TF.getText().contains("(")
         || !complex2TF.getText().contains(")") || complex1TF.getText().isEmpty() || complex2TF.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "ERROR:\nMake sure the complex number is in the format (a + bi)");
+            JOptionPane.showMessageDialog(this, "Make sure the complex number is in the format (a + bi)", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             a = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf("(") + 1));
             b = Double.parseDouble(complex1TF.getText().substring(complex1TF.getText().lastIndexOf(")") - 2));
